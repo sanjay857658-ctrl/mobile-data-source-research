@@ -1,6 +1,7 @@
 let records = [];
 
 const pages = {
+    add: document.getElementById("addPage"),
     dashboard: document.getElementById("dashboardPage"),
     profiles: document.getElementById("profilesPage"),
     profile: document.getElementById("profilePage"),
@@ -229,6 +230,7 @@ function showPage(name) {
     pages[name].classList.remove("hidden");
 
     const titles = {
+    add: "Add Synthetic Profile",
         dashboard: "Dashboard",
         profiles: "Profiles",
         profile: "Profile Details",
@@ -421,3 +423,95 @@ loadData = async function() {
     applyFilters();
 };
 
+
+const profileForm =
+    document.getElementById("profileForm");
+
+const formMessage =
+    document.getElementById("formMessage");
+
+
+if (profileForm) {
+
+    profileForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+            formMessage.textContent =
+                "Saving...";
+
+            const payload = {
+                phone_number:
+                    document.getElementById(
+                        "phoneNumber"
+                    ).value.trim(),
+
+                country:
+                    document.getElementById(
+                        "country"
+                    ).value.trim().toUpperCase(),
+
+                number_type:
+                    document.getElementById(
+                        "numberType"
+                    ).value,
+
+                confidence:
+                    document.getElementById(
+                        "confidence"
+                    ).value,
+
+                notes:
+                    document.getElementById(
+                        "notes"
+                    ).value.trim(),
+
+                source_type: "synthetic"
+            };
+
+            try {
+
+                const response = await fetch(
+                    "/api/profiles",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body: JSON.stringify(payload)
+                    }
+                );
+
+                const result =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.error ||
+                        "Save failed"
+                    );
+                }
+
+                formMessage.textContent =
+                    `Saved successfully. Record ID: ${
+                        result.record.record_id
+                    }`;
+
+                profileForm.reset();
+
+                await loadData();
+
+                populateCountryFilter();
+                applyFilters();
+
+            } catch (error) {
+
+                formMessage.textContent =
+                    "Error: " + error.message;
+            }
+        }
+    );
+}
