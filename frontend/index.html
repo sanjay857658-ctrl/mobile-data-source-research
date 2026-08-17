@@ -12,10 +12,9 @@
 <header class="topbar">
     <div>
         <h1>Mobile Data Source Research</h1>
-        <p>Educational Data Analysis Dashboard</p>
+        <p>Educational Profile Dashboard</p>
     </div>
-
-    <span class="badge">SYNTHETIC / DEMO</span>
+    <span class="badge">SYNTHETIC / DEMO ONLY</span>
 </header>
 
 <main>
@@ -23,13 +22,12 @@
     <section class="notice">
         <strong>Privacy Notice</strong>
         <p>
-            This dashboard works with synthetic educational data only.
-            It does not perform real-person identity or social-account lookup.
+            All profiles shown here are synthetic educational records.
+            No real-person identity or social-account lookup is performed.
         </p>
     </section>
 
     <section class="stats">
-
         <div class="card">
             <span>Total Records</span>
             <strong id="totalRecords">0</strong>
@@ -49,39 +47,31 @@
             <span>Audit</span>
             <strong class="pass" id="auditStatus">PASS</strong>
         </div>
-
     </section>
 
-    <section class="panel">
+    <section id="listView">
 
-        <div class="panel-header">
-            <h2>Synthetic Records</h2>
+        <div class="toolbar">
+            <h2>Synthetic Profiles</h2>
 
             <input
                 id="search"
                 type="search"
-                placeholder="Search test records..."
+                placeholder="Search profiles..."
             >
         </div>
 
-        <div class="table-container">
-            <table>
+        <div id="profileGrid" class="profile-grid"></div>
 
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Phone</th>
-                        <th>Country</th>
-                        <th>Source</th>
-                        <th>Facebook</th>
-                        <th>Instagram</th>
-                    </tr>
-                </thead>
+    </section>
 
-                <tbody id="records"></tbody>
+    <section id="profileView" class="profile-page hidden">
 
-            </table>
-        </div>
+        <button id="backButton" class="back-button">
+            ← Back to Profiles
+        </button>
+
+        <div id="profileDetails"></div>
 
     </section>
 
