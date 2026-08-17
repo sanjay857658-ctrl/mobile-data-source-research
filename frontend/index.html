@@ -118,11 +118,32 @@
             <div class="toolbar">
                 <h2>Synthetic Profiles</h2>
 
-                <input
-                    id="search"
-                    type="search"
-                    placeholder="Search ID, phone or country..."
-                >
+                <div class="filters">
+
+                    <input
+                        id="search"
+                        type="search"
+                        placeholder="Search ID, phone or country..."
+                    >
+
+                    <select id="countryFilter">
+                        <option value="">All Countries</option>
+                    </select>
+
+                    <select id="confidenceFilter">
+                        <option value="">All Confidence</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+
+                    <select id="sortBy">
+                        <option value="id">Sort: Record ID</option>
+                        <option value="country">Sort: Country</option>
+                        <option value="confidence">Sort: Confidence</option>
+                    </select>
+
+                </div>
             </div>
 
             <div id="profileGrid" class="profile-grid"></div>

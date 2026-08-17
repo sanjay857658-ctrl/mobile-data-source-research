@@ -15,7 +15,7 @@ const search = document.getElementById("search");
 
 async function loadData() {
 
-    const response = await fetch("data.json");
+    const response = await fetch("/api/data");
 
     if (!response.ok) {
         throw new Error("Unable to load data.json");
@@ -106,29 +106,82 @@ function openProfile(id) {
 
             </div>
 
+            <div class="notice">
+                <strong>SAFE DEMO PROFILE</strong>
+                <p>
+                    This profile contains synthetic research data only.
+                    No real-person identity was resolved.
+                </p>
+            </div>
+
+            <h3>Basic Information</h3>
+
             <div class="detail-grid">
 
                 ${detail("Record ID", record.id)}
                 ${detail("Phone Number", record.phone)}
                 ${detail("Country", record.country)}
-                ${detail("Source Type", record.source)}
-                ${detail("Confidence", record.confidence)}
-                ${detail("Privacy Status", "SYNTHETIC / DEMO")}
-                ${detail("Identity", "NOT IDENTIFIED")}
-                ${detail("Real Lookup", "DISABLED")}
+                ${detail("Number Type", record.number_type)}
 
             </div>
+
+            <h3>Source Information</h3>
+
+            <div class="detail-grid">
+
+                ${detail("Source Type", record.source_type)}
+                ${detail("Source Name", record.source_name)}
+                ${detail("Data Found", record.data_found)}
+                ${detail("Consent Status", record.consent_status)}
+                ${detail("Confidence", record.confidence)}
+
+            </div>
+
+            <h3>Research Notes</h3>
+
+            <div class="detail-item">
+                <label>Notes</label>
+                <strong>${escapeHtml(record.notes)}</strong>
+            </div>
+
+            <h3>Mock Social Sources</h3>
 
             <div class="social-links">
 
                 ${mockLink(
                     "Mock Facebook",
-                    record.facebook
+                    record.mock_facebook
                 )}
 
                 ${mockLink(
                     "Mock Instagram",
-                    record.instagram
+                    record.mock_instagram
+                )}
+
+            </div>
+
+            <h3>Privacy Controls</h3>
+
+            <div class="detail-grid">
+
+                ${detail(
+                    "Privacy Status",
+                    "SAFE / SYNTHETIC"
+                )}
+
+                ${detail(
+                    "Real Lookup",
+                    "DISABLED"
+                )}
+
+                ${detail(
+                    "Real Identity",
+                    "NOT IDENTIFIED"
+                )}
+
+                ${detail(
+                    "External Collection",
+                    "DISABLED"
                 )}
 
             </div>
@@ -248,3 +301,123 @@ loadData().catch(error => {
         </div>
     `;
 });
+
+const countryFilter =
+    document.getElementById("countryFilter");
+
+const confidenceFilter =
+    document.getElementById("confidenceFilter");
+
+const sortBy =
+    document.getElementById("sortBy");
+
+
+function populateCountryFilter() {
+
+    const countries = [
+        ...new Set(
+            records.map(record => record.country)
+        )
+    ].filter(Boolean).sort();
+
+    countryFilter.innerHTML =
+        '<option value="">All Countries</option>';
+
+    countries.forEach(country => {
+
+        const option = document.createElement("option");
+
+        option.value = country;
+        option.textContent = country;
+
+        countryFilter.appendChild(option);
+    });
+}
+
+
+function applyFilters() {
+
+    const query =
+        search.value.toLowerCase().trim();
+
+    const country =
+        countryFilter.value;
+
+    const confidence =
+        confidenceFilter.value;
+
+    const sort =
+        sortBy.value;
+
+    let filtered = records.filter(record => {
+
+        const matchesSearch =
+            String(record.id).toLowerCase().includes(query) ||
+            String(record.phone).toLowerCase().includes(query) ||
+            String(record.country).toLowerCase().includes(query);
+
+        const matchesCountry =
+            !country ||
+            record.country === country;
+
+        const matchesConfidence =
+            !confidence ||
+            String(record.confidence).toLowerCase() === confidence;
+
+        return (
+            matchesSearch &&
+            matchesCountry &&
+            matchesConfidence
+        );
+    });
+
+    filtered.sort((a, b) => {
+
+        if (sort === "country") {
+            return String(a.country)
+                .localeCompare(String(b.country));
+        }
+
+        if (sort === "confidence") {
+            return String(a.confidence)
+                .localeCompare(String(b.confidence));
+        }
+
+        return Number(a.id) - Number(b.id);
+    });
+
+    renderProfiles(filtered);
+}
+
+
+search.addEventListener(
+    "input",
+    applyFilters
+);
+
+countryFilter.addEventListener(
+    "change",
+    applyFilters
+);
+
+confidenceFilter.addEventListener(
+    "change",
+    applyFilters
+);
+
+sortBy.addEventListener(
+    "change",
+    applyFilters
+);
+
+
+const originalLoadData = loadData;
+
+loadData = async function() {
+
+    await originalLoadData();
+
+    populateCountryFilter();
+    applyFilters();
+};
+
