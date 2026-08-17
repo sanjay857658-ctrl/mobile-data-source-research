@@ -1,0 +1,6 @@
+record_id,phone_number,mock_facebook,mock_instagram,source_type,confidence
+1,+12025550101,https://example.com/facebook/test-user-001,https://example.com/instagram/test-user-001,synthetic,demo_only
+2,+12025550102,https://example.com/facebook/test-user-002,https://example.com/instagram/test-user-002,synthetic,demo_only
+3,+12025550103,https://example.com/facebook/test-user-003,https://example.com/instagram/test-user-003,synthetic,demo_only
+4,+12025550104,https://example.com/facebook/test-user-004,https://example.com/instagram/test-user-004,synthetic,demo_only
+5,+12025550105,https://example.com/facebook/test-user-005,https://example.com/instagram/test-user-005,synthetic,demo_only
