@@ -9,77 +9,207 @@
 
 <body>
 
-<header class="topbar">
-    <div>
-        <h1>Mobile Data Source Research</h1>
-        <p>Educational Profile Dashboard</p>
-    </div>
-    <span class="badge">SYNTHETIC / DEMO ONLY</span>
-</header>
+<div class="app">
 
-<main>
+    <aside class="sidebar">
+        <h2>DATA<span>LAB</span></h2>
 
-    <section class="notice">
-        <strong>Privacy Notice</strong>
-        <p>
-            All profiles shown here are synthetic educational records.
-            No real-person identity or social-account lookup is performed.
-        </p>
-    </section>
+        <nav>
+            <button class="nav-btn active" data-page="dashboard">
+                Dashboard
+            </button>
 
-    <section class="stats">
-        <div class="card">
-            <span>Total Records</span>
-            <strong id="totalRecords">0</strong>
+            <button class="nav-btn" data-page="profiles">
+                Profiles
+            </button>
+
+            <button class="nav-btn" data-page="audit">
+                Safety Audit
+            </button>
+
+            <button class="nav-btn" data-page="methodology">
+                Methodology
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            SYNTHETIC DATA<br>
+            EDUCATIONAL ONLY
         </div>
+    </aside>
 
-        <div class="card">
-            <span>Valid Numbers</span>
-            <strong id="validNumbers">0</strong>
-        </div>
+    <main class="content">
 
-        <div class="card">
-            <span>Duplicates</span>
-            <strong id="duplicates">0</strong>
-        </div>
+        <header class="header">
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p>Mobile Data Source Research</p>
+            </div>
 
-        <div class="card">
-            <span>Audit</span>
-            <strong class="pass" id="auditStatus">PASS</strong>
-        </div>
-    </section>
+            <span class="badge">DEMO ONLY</span>
+        </header>
 
-    <section id="listView">
+        <section id="dashboardPage" class="page">
 
-        <div class="toolbar">
-            <h2>Synthetic Profiles</h2>
+            <div class="notice">
+                <strong>Privacy Protected Environment</strong>
+                <p>
+                    This application uses synthetic records only.
+                    Real-person identity and social-account discovery
+                    are disabled.
+                </p>
+            </div>
 
-            <input
-                id="search"
-                type="search"
-                placeholder="Search profiles..."
-            >
-        </div>
+            <div class="stats">
 
-        <div id="profileGrid" class="profile-grid"></div>
+                <div class="stat">
+                    <span>Total Records</span>
+                    <strong id="totalRecords">0</strong>
+                </div>
 
-    </section>
+                <div class="stat">
+                    <span>Valid Numbers</span>
+                    <strong id="validNumbers">0</strong>
+                </div>
 
-    <section id="profileView" class="profile-page hidden">
+                <div class="stat">
+                    <span>Duplicates</span>
+                    <strong id="duplicates">0</strong>
+                </div>
 
-        <button id="backButton" class="back-button">
-            ← Back to Profiles
-        </button>
+                <div class="stat">
+                    <span>Audit</span>
+                    <strong id="auditStatus">—</strong>
+                </div>
 
-        <div id="profileDetails"></div>
+            </div>
 
-    </section>
+            <div class="panel">
+                <h2>Dataset Overview</h2>
 
-</main>
+                <div class="overview-grid">
+                    <div>
+                        <label>Privacy</label>
+                        <strong>SYNTHETIC</strong>
+                    </div>
 
-<footer>
-    Mobile Data Source Research · Educational Demo
-</footer>
+                    <div>
+                        <label>Environment</label>
+                        <strong>LOCAL</strong>
+                    </div>
+
+                    <div>
+                        <label>Real Lookup</label>
+                        <strong>DISABLED</strong>
+                    </div>
+
+                    <div>
+                        <label>Source</label>
+                        <strong>TEST DATASET</strong>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section id="profilesPage" class="page hidden">
+
+            <div class="toolbar">
+                <h2>Synthetic Profiles</h2>
+
+                <input
+                    id="search"
+                    type="search"
+                    placeholder="Search ID, phone or country..."
+                >
+            </div>
+
+            <div id="profileGrid" class="profile-grid"></div>
+
+        </section>
+
+
+        <section id="profilePage" class="page hidden">
+
+            <button id="backButton" class="back-button">
+                ← Back
+            </button>
+
+            <div id="profileDetails"></div>
+
+        </section>
+
+
+        <section id="auditPage" class="page hidden">
+
+            <div class="panel">
+
+                <h2>Automated Safety Audit</h2>
+
+                <div class="audit-result">
+                    <strong id="auditLarge">PASS</strong>
+                    <p>
+                        Synthetic dataset passed the local safety checks.
+                    </p>
+                </div>
+
+                <div class="check">
+                    <span>Dataset structure</span>
+                    <strong>PASS</strong>
+                </div>
+
+                <div class="check">
+                    <span>Synthetic source</span>
+                    <strong>PASS</strong>
+                </div>
+
+                <div class="check">
+                    <span>Mock social links</span>
+                    <strong>PASS</strong>
+                </div>
+
+                <div class="check">
+                    <span>Secret scan</span>
+                    <strong>PASS</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section id="methodologyPage" class="page hidden">
+
+            <div class="panel">
+
+                <h2>Methodology</h2>
+
+                <p>
+                    The project demonstrates a safe educational data
+                    pipeline using synthetic records.
+                </p>
+
+                <ol>
+                    <li>Load synthetic CSV data.</li>
+                    <li>Generate mock source relationships.</li>
+                    <li>Validate dataset structure.</li>
+                    <li>Run privacy and secret checks.</li>
+                    <li>Generate frontend JSON.</li>
+                    <li>Display results locally.</li>
+                </ol>
+
+                <div class="notice">
+                    No real-person lookup is performed.
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
 
 <script src="js/app.js"></script>
 

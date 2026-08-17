@@ -1,162 +1,143 @@
 let records = [];
 
-const totalRecords = document.getElementById("totalRecords");
-const validNumbers = document.getElementById("validNumbers");
-const duplicates = document.getElementById("duplicates");
-const auditStatus = document.getElementById("auditStatus");
+const pages = {
+    dashboard: document.getElementById("dashboardPage"),
+    profiles: document.getElementById("profilesPage"),
+    profile: document.getElementById("profilePage"),
+    audit: document.getElementById("auditPage"),
+    methodology: document.getElementById("methodologyPage")
+};
 
-const search = document.getElementById("search");
+const pageTitle = document.getElementById("pageTitle");
 const profileGrid = document.getElementById("profileGrid");
-
-const listView = document.getElementById("listView");
-const profileView = document.getElementById("profileView");
 const profileDetails = document.getElementById("profileDetails");
-const backButton = document.getElementById("backButton");
-
+const search = document.getElementById("search");
 
 async function loadData() {
 
-    try {
+    const response = await fetch("data.json");
 
-        const response = await fetch("data.json");
-
-        if (!response.ok) {
-            throw new Error("data.json could not be loaded");
-        }
-
-        const data = await response.json();
-
-        records = data.records || [];
-
-        totalRecords.textContent = data.total_records ?? records.length;
-        validNumbers.textContent = data.valid_numbers ?? 0;
-        duplicates.textContent = data.duplicates ?? 0;
-        auditStatus.textContent = data.audit_status ?? "UNKNOWN";
-
-        renderProfiles(records);
-
-    } catch (error) {
-
-        console.error(error);
-
-        profileGrid.innerHTML = `
-            <div class="profile-card">
-                Unable to load profile data.
-            </div>
-        `;
+    if (!response.ok) {
+        throw new Error("Unable to load data.json");
     }
+
+    const data = await response.json();
+
+    records = data.records || [];
+
+    document.getElementById("totalRecords").textContent =
+        data.total_records ?? records.length;
+
+    document.getElementById("validNumbers").textContent =
+        data.valid_numbers ?? 0;
+
+    document.getElementById("duplicates").textContent =
+        data.duplicates ?? 0;
+
+    document.getElementById("auditStatus").textContent =
+        data.audit_status ?? "UNKNOWN";
+
+    document.getElementById("auditLarge").textContent =
+        data.audit_status ?? "UNKNOWN";
+
+    renderProfiles(records);
 }
 
-
-function renderProfiles(data) {
+function renderProfiles(list) {
 
     profileGrid.innerHTML = "";
 
-    if (data.length === 0) {
-
+    if (!list.length) {
         profileGrid.innerHTML = `
             <div class="profile-card">
-                No matching profiles found.
+                No profiles found.
             </div>
         `;
-
         return;
     }
 
-    for (const record of data) {
+    list.forEach(record => {
 
         const card = document.createElement("article");
 
         card.className = "profile-card";
 
         card.innerHTML = `
-            <div class="avatar">
-                ${escapeHtml(record.id)}
-            </div>
+            <div class="avatar">${escapeHtml(record.id)}</div>
 
             <h3>Test Profile ${escapeHtml(record.id)}</h3>
 
-            <p><strong>Phone:</strong> ${escapeHtml(record.phone)}</p>
+            <p>Phone: ${escapeHtml(record.phone)}</p>
+            <p>Country: ${escapeHtml(record.country)}</p>
+            <p>Source: ${escapeHtml(record.source)}</p>
 
-            <p><strong>Country:</strong> ${escapeHtml(record.country)}</p>
-
-            <p><strong>Source:</strong> ${escapeHtml(record.source)}</p>
-
-            <span class="profile-tag">
-                SYNTHETIC / DEMO
-            </span>
+            <span class="tag">SYNTHETIC / DEMO</span>
         `;
 
         card.addEventListener("click", () => {
-            showProfile(record.id);
+            openProfile(record.id);
         });
 
         profileGrid.appendChild(card);
-    }
+    });
 }
 
+function openProfile(id) {
 
-function showProfile(id) {
-
-    const profile = records.find(
-        record => String(record.id) === String(id)
+    const record = records.find(
+        item => String(item.id) === String(id)
     );
 
-    if (!profile) {
-        return;
-    }
+    if (!record) return;
 
     profileDetails.innerHTML = `
-        <div class="detail-header">
+        <div class="panel">
 
-            <div class="detail-avatar">
-                ${escapeHtml(profile.id)}
+            <div class="detail-header">
+
+                <div class="detail-avatar">
+                    ${escapeHtml(record.id)}
+                </div>
+
+                <div>
+                    <h2>Test Profile ${escapeHtml(record.id)}</h2>
+                    <p>Synthetic educational record</p>
+                </div>
+
             </div>
 
-            <div>
-                <h2>Test Profile ${escapeHtml(profile.id)}</h2>
-                <p>Synthetic educational record</p>
+            <div class="detail-grid">
+
+                ${detail("Record ID", record.id)}
+                ${detail("Phone Number", record.phone)}
+                ${detail("Country", record.country)}
+                ${detail("Source Type", record.source)}
+                ${detail("Confidence", record.confidence)}
+                ${detail("Privacy Status", "SYNTHETIC / DEMO")}
+                ${detail("Identity", "NOT IDENTIFIED")}
+                ${detail("Real Lookup", "DISABLED")}
+
             </div>
 
-        </div>
+            <div class="social-links">
 
-        <div class="detail-grid">
+                ${mockLink(
+                    "Mock Facebook",
+                    record.facebook
+                )}
 
-            ${detail("Record ID", profile.id)}
-            ${detail("Phone Number", profile.phone)}
-            ${detail("Country", profile.country)}
-            ${detail("Source Type", profile.source)}
-            ${detail("Confidence", profile.confidence)}
-            ${detail("Privacy Status", "SYNTHETIC / DEMO ONLY")}
-            ${detail("Identity Status", "NOT IDENTIFIED")}
-            ${detail("Real-person Lookup", "DISABLED")}
+                ${mockLink(
+                    "Mock Instagram",
+                    record.instagram
+                )}
 
-        </div>
-
-        <div class="social-links">
-
-            ${mockLink(
-                "Mock Facebook Profile",
-                profile.facebook
-            )}
-
-            ${mockLink(
-                "Mock Instagram Profile",
-                profile.instagram
-            )}
+            </div>
 
         </div>
     `;
 
-    listView.classList.add("hidden");
-    profileView.classList.remove("hidden");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    showPage("profile");
 }
-
 
 function detail(label, value) {
 
@@ -168,7 +149,6 @@ function detail(label, value) {
     `;
 }
 
-
 function mockLink(label, url) {
 
     if (
@@ -179,16 +159,74 @@ function mockLink(label, url) {
     }
 
     return `
-        <a
-            href="${escapeAttribute(url)}"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
+        <a href="${escapeHtml(url)}"
+           target="_blank"
+           rel="noopener noreferrer">
             ${escapeHtml(label)}
         </a>
     `;
 }
 
+function showPage(name) {
+
+    Object.values(pages).forEach(page => {
+        page.classList.add("hidden");
+    });
+
+    pages[name].classList.remove("hidden");
+
+    const titles = {
+        dashboard: "Dashboard",
+        profiles: "Profiles",
+        profile: "Profile Details",
+        audit: "Safety Audit",
+        methodology: "Methodology"
+    };
+
+    pageTitle.textContent = titles[name];
+
+    document.querySelectorAll(".nav-btn").forEach(button => {
+        button.classList.toggle(
+            "active",
+            button.dataset.page === name
+        );
+    });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+document.querySelectorAll(".nav-btn").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const page = button.dataset.page;
+
+        showPage(page);
+
+    });
+
+});
+
+document.getElementById("backButton").addEventListener(
+    "click",
+    () => showPage("profiles")
+);
+
+search.addEventListener("input", () => {
+
+    const query = search.value.toLowerCase().trim();
+
+    const filtered = records.filter(record =>
+        String(record.id).toLowerCase().includes(query) ||
+        String(record.phone).toLowerCase().includes(query) ||
+        String(record.country).toLowerCase().includes(query)
+    );
+
+    renderProfiles(filtered);
+});
 
 function escapeHtml(value) {
 
@@ -200,38 +238,13 @@ function escapeHtml(value) {
         .replaceAll("'", "&#039;");
 }
 
+loadData().catch(error => {
 
-function escapeAttribute(value) {
-    return escapeHtml(value);
-}
+    console.error(error);
 
-
-search.addEventListener("input", () => {
-
-    const query = search.value.toLowerCase().trim();
-
-    const filtered = records.filter(record =>
-
-        String(record.id).toLowerCase().includes(query) ||
-        String(record.phone).toLowerCase().includes(query) ||
-        String(record.country).toLowerCase().includes(query) ||
-        String(record.source).toLowerCase().includes(query)
-    );
-
-    renderProfiles(filtered);
+    profileGrid.innerHTML = `
+        <div class="profile-card">
+            Failed to load dataset.
+        </div>
+    `;
 });
-
-
-backButton.addEventListener("click", () => {
-
-    profileView.classList.add("hidden");
-    listView.classList.remove("hidden");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-});
-
-
-loadData();
