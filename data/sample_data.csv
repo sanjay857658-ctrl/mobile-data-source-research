@@ -1,0 +1,6 @@
+record_id,phone_number,country,number_type,source_type,source_name,data_found,consent_status,confidence,notes
+1,+12025550101,US,mobile,synthetic,test_dataset,synthetic test number,not_applicable,high,reserved example number
+2,+12025550102,US,mobile,synthetic,test_dataset,synthetic test number,not_applicable,high,reserved example number
+3,+12025550103,US,mobile,synthetic,test_dataset,synthetic test number,not_applicable,high,reserved example number
+4,+12025550104,US,mobile,synthetic,test_dataset,synthetic test number,not_applicable,high,reserved example number
+5,+12025550105,US,mobile,synthetic,test_dataset,synthetic test number,not_applicable,high,reserved example number
