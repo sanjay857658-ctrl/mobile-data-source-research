@@ -8,15 +8,19 @@ echo "SAFE EDUCATIONAL WORKFLOW"
 echo "================================================"
 
 echo
-echo "[1/3] Generating synthetic social-link dataset..."
+echo "[1/4] Generating synthetic social-link dataset..."
 python scripts/generate_mock_links.py
 
 echo
-echo "[2/3] Running dataset analysis..."
+echo "[2/4] Running dataset analysis..."
 python scripts/collector.py
 
 echo
-echo "[3/3] Checking Git status..."
+echo "[3/4] Running automated safety audit..."
+python scripts/safety_audit.py
+
+echo
+echo "[4/4] Checking Git status..."
 git status --short
 
 echo
