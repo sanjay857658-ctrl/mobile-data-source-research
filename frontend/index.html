@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Data Source Research</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div>
+        <h1>Mobile Data Source Research</h1>
+        <p>Educational Data Analysis Dashboard</p>
+    </div>
+
+    <span class="badge">SYNTHETIC / DEMO</span>
+</header>
+
+<main>
+
+    <section class="notice">
+        <strong>Privacy Notice</strong>
+        <p>
+            This dashboard works with synthetic educational data only.
+            It does not perform real-person identity or social-account lookup.
+        </p>
+    </section>
+
+    <section class="stats">
+
+        <div class="card">
+            <span>Total Records</span>
+            <strong id="totalRecords">0</strong>
+        </div>
+
+        <div class="card">
+            <span>Valid Numbers</span>
+            <strong id="validNumbers">0</strong>
+        </div>
+
+        <div class="card">
+            <span>Duplicates</span>
+            <strong id="duplicates">0</strong>
+        </div>
+
+        <div class="card">
+            <span>Audit</span>
+            <strong class="pass" id="auditStatus">PASS</strong>
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <div class="panel-header">
+            <h2>Synthetic Records</h2>
+
+            <input
+                id="search"
+                type="search"
+                placeholder="Search test records..."
+            >
+        </div>
+
+        <div class="table-container">
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Phone</th>
+                        <th>Country</th>
+                        <th>Source</th>
+                        <th>Facebook</th>
+                        <th>Instagram</th>
+                    </tr>
+                </thead>
+
+                <tbody id="records"></tbody>
+
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    Mobile Data Source Research · Educational Demo
+</footer>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>

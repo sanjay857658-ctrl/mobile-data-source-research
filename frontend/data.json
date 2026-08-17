@@ -1,0 +1,54 @@
+{
+  "privacy": "SYNTHETIC / DEMO ONLY",
+  "total_records": 5,
+  "valid_numbers": 5,
+  "duplicates": 0,
+  "audit_status": "PASS",
+  "records": [
+    {
+      "id": "1",
+      "phone": "+12025550101",
+      "country": "US",
+      "source": "synthetic",
+      "confidence": "high",
+      "facebook": "https://example.com/facebook/test-user-001",
+      "instagram": "https://example.com/instagram/test-user-001"
+    },
+    {
+      "id": "2",
+      "phone": "+12025550102",
+      "country": "US",
+      "source": "synthetic",
+      "confidence": "high",
+      "facebook": "https://example.com/facebook/test-user-002",
+      "instagram": "https://example.com/instagram/test-user-002"
+    },
+    {
+      "id": "3",
+      "phone": "+12025550103",
+      "country": "US",
+      "source": "synthetic",
+      "confidence": "high",
+      "facebook": "https://example.com/facebook/test-user-003",
+      "instagram": "https://example.com/instagram/test-user-003"
+    },
+    {
+      "id": "4",
+      "phone": "+12025550104",
+      "country": "US",
+      "source": "synthetic",
+      "confidence": "high",
+      "facebook": "https://example.com/facebook/test-user-004",
+      "instagram": "https://example.com/instagram/test-user-004"
+    },
+    {
+      "id": "5",
+      "phone": "+12025550105",
+      "country": "US",
+      "source": "synthetic",
+      "confidence": "high",
+      "facebook": "https://example.com/facebook/test-user-005",
+      "instagram": "https://example.com/instagram/test-user-005"
+    }
+  ]
+}
